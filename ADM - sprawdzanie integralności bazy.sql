@@ -13,6 +13,23 @@
 dbcc checkdb;
 dbcc checkdb('AdventureWorksDW2019');
 
+-- tryb Emergency - tylko cz³onkowie roli sysadmin maj¹ dostêp do bazy
+--                - baza tylko do odczytu
+alter database AdventureWorksDW2019 set emergency;
+
+alter database AdventureWorksDW2019 set single_user;
+
+-- wykrywanie uszkodzeñ w bazie danych
+-- zezwalamy na stratê danych przy naprawie
+-- baza musi byæ w trybie single_user
+dbcc checkdb('AdventureWorksDW2019', REPAIR_ALLOW_DATA_LOSS)
+
+-- przeprowadza tylko naprawy nie powoduj¹ce utraty danych
+dbcc checkdb('AdventureWorksDW2019', REPAIR_REBUILD)
+
+alter database AdventureWorksDW2019 set multi_user;
+alter database AdventureWorksDW2019 set online;
+
 /*
 
 Do nastêpnego eksperymentu bêdzie potrzebny edytor pliku:
